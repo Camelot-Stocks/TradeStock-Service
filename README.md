@@ -1,4 +1,4 @@
-# API routs
+# API routes
 
 get all users: /api/users
 
