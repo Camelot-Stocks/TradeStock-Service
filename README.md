@@ -3,17 +3,59 @@
 get all users: /api/users
 
 get a user: /api/user/:id
-{id: 1, name: 'John', budget: 1000, age: 59, phone_number:'800-888-1234', house_number: 1234, street: 'Howard', city: 'SF', state: 'CA', zip: 92100}
+{id: 1,
+name: 'John',
+budget: 1000,
+birthdate: '1970-07-12',
+phone_number:'800-888-1234',
+street: 'Howard',
+city: 'SF',
+state: 'CA',
+zip: 92100,
+stocks: []
+}
 
 get all stocks: /api/stocks
 
 get one stock: /api/stock/:id
-{id: 1, price: 435.2, ceo: 'Tim Cook', employees: 17500, founded: 1971, category: 'tech' }
+{id: 1,
+price: 435.2,
+ceo: 'Tim Cook',
+employees: 17500,
+founded: 1971,
+category: 'tech'}
 
-post to stocks: /api/stocks
+post to stocks: /api/stocks/transactions/:id
+// user buys or sells a number of shares
+{stocks_id: 1003, 
+quantity: 14, 
+type: buy}
+
+// and adds a row to transactions: 
+Transactions: {
+id: 10023538, 
+date: '12-18-2019-11-17-23AM',
+stocks_id: 2084253,
+type: 'buy',
+by: 1,
+quantity: 14,
+price_per_share: 10,
+total_price: 140
+} 
 
 update a user: /api/user/:id
-{id: 1, name: 'John', budget: 2000, age: 23, phone_number:'800-888-1234', house_number: 1234, street: 'Howard', city: 'SF', state: 'CA', zip: 92100}
+{
+id: 1,
+name: 'John',
+budget: 2000,
+birthdate: '1970-07-12',
+phone_number:'800-888-1234',
+street: 'Howard',
+city: 'SF',
+state: 'CA',
+zip: 92100
+stocks: [{stocks_id: 2084253, quantity: 14 }]
+}
 
 update a stock: /api/stock/:id
 {id: 1, price: 1000.21, ceo: 'Tim Cook', employees: 17500, founded: 1971, category: 'tech' }
