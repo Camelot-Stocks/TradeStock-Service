@@ -1,3 +1,23 @@
+# API routs
+
+get all users: /api/users
+
+get a user: /api/user/:id
+
+get all stocks: /api/stocks
+
+get one stock: /api/stock/:id
+
+post to stocks: /api/stocks
+
+update a user: /api/user/:id
+
+update a stock: /api/stock/:id
+
+delete a user: /api/user/:id
+
+delete a stock: /api/stock/:id
+
 # Robinhood-TradeStock
 
 Step 1:
@@ -26,4 +46,4 @@ Also, in server.js line 16, a random User Id is being chosen to test. If you'd l
 
 Step 7: 
 
-If you need to change the port number, it's in server directory in start.js file. 
+If you need to change the port number, it's in server directory in start.js file.
