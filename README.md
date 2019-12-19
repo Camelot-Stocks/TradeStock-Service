@@ -3,16 +3,20 @@
 get all users: /api/users
 
 get a user: /api/user/:id
+{id: 1, name: 'John', budget: 1000, age: 59, phone_number:'800-888-1234', house_number: 1234, street: 'Howard', city: 'SF', state: 'CA', zip: 92100}
 
 get all stocks: /api/stocks
 
 get one stock: /api/stock/:id
+{id: 1, price: 435.2, ceo: 'Tim Cook', employees: 17500, founded: 1971, category: 'tech' }
 
 post to stocks: /api/stocks
 
 update a user: /api/user/:id
+{id: 1, name: 'John', budget: 2000, age: 23, phone_number:'800-888-1234', house_number: 1234, street: 'Howard', city: 'SF', state: 'CA', zip: 92100}
 
 update a stock: /api/stock/:id
+{id: 1, price: 1000.21, ceo: 'Tim Cook', employees: 17500, founded: 1971, category: 'tech' }
 
 delete a user: /api/user/:id
 
