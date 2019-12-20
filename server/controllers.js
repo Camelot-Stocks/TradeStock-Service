@@ -10,4 +10,22 @@ module.exports = {
       }
     }, req.body);
   },
+  addMongoStock: (req, res) => {
+    Mongo.addStock((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
+  },
+  addMongoTransaction: (req, res) => {
+    Mongo.addTransaction((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
+  },
 };

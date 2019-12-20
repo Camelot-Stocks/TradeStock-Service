@@ -20,4 +20,12 @@ app.post('/api/user', (req, res) => {
   Controllers.addMongoUser(req, res);
 });
 
+app.post('/api/stock', (req, res) => {
+  Controllers.addMongoStock(req, res);
+});
+
+app.post('/api/transaction', (req, res) => {
+  Controllers.addMongoTransaction(req, res);
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

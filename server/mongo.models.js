@@ -45,8 +45,25 @@ const Transaction = mongoose.model('Transaction', transactionSchema);
 
 module.exports = {
   addUser: (callback, data) => {
-    // const myUser = new User(data);
     User.create(data, (err, data) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, data);
+      }
+    });
+  },
+  addStock: (callback, data) => {
+    Stock.create(data, (err, data) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, data);
+      }
+    });
+  },
+  addTransaction: (callback, data) => {
+    Transaction.create(data, (err, data) => {
       if (err) {
         callback(err);
       } else {
