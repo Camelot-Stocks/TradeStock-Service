@@ -28,4 +28,13 @@ module.exports = {
       }
     }, req.body);
   },
+  addMongoUserStock: (req, res) => {
+    Mongo.addUserStock((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
+  },
 };

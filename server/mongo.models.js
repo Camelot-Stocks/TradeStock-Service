@@ -1,13 +1,12 @@
 /* eslint-disable no-shadow */
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/robinhood', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost/robinhood', { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false });
 const { Schema } = mongoose;
 
 const db = mongoose.connection;
 
 const userSchema = new Schema({
-  id: Number,
   name: String,
   budget: Number,
   birthdate: Date,
@@ -15,21 +14,19 @@ const userSchema = new Schema({
   street: String,
   city: String,
   state: String,
-  stocks: [{ stock_id: Number, quantity: Number }],
+  zip: Number,
+  stocks: [{ stock: { type: Schema.Types.ObjectId, ref: 'Stock' }, quantity: Number }],
 });
 
 const stockSchema = new Schema({
-  id: Number,
   name: String,
   price: Number,
   ceo: String,
   employees: Number,
   founded: Date,
-  quantity: Number,
 });
 
 const transactionSchema = new Schema({
-  id: Number,
   date: Date,
   stocks_id: Number,
   type: String,
@@ -68,6 +65,17 @@ module.exports = {
         callback(err);
       } else {
         callback(null, data);
+      }
+    });
+  },
+  addUserStock: (callback, data) => {
+    const stockObj = { stock: data.stock_id, quantity: data.quantity };
+    const success = 'updated';
+    User.findByIdAndUpdate({ _id: data.user_id }, { $push: { stocks: stockObj } }, {}, (err, success) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, success);
       }
     });
   },
