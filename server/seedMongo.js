@@ -21,6 +21,7 @@ const insertStocks = (num) => {
   for (let i = 0; i < num; i++) {
     stockPromises.push(
       Mongo.insertStock({
+        id: i + 1,
         company: company(),
         ticker: ticker(),
         price: price(),
@@ -45,14 +46,17 @@ const street = () => faker.address.streetAddress();
 const city = () => faker.address.city();
 const state = () => faker.address.state();
 const zip = () => faker.address.zipCode();
-const quantity = () => Math.floor(Math.random() * 100);
-const makeStockAmount = () => Math.floor(Math.random() * 100);
+const quantity = () => Math.ceil(Math.random() * 100);
+const makeStockAmount = () => Math.ceil(Math.random() * 10);
 
-const insertUsersStock = (num) => {
+const insertUserStock = (num) => {
   const userPromises = [];
   for (let i = 0; i < num; i++) {
+    let qty = quantity();
+    let stockAmount = makeStockAmount();
     userPromises.push(
       Mongo.insertUserStock({
+        id: i + 1,
         name: name(),
         budget: budget(),
         birthdate: birthdate(),
@@ -62,7 +66,7 @@ const insertUsersStock = (num) => {
         state: state(),
         zip: zip(),
         stocks: [],
-      }),
+      }, stockAmount, qty),
     );
   }
   Promise.all(userPromises)
@@ -70,4 +74,34 @@ const insertUsersStock = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-insertUsersStock(1);
+// insertUserStock(100);
+const date = () => faker.date.between('2013-04-18', '2020-01-01');
+const randNumUser = () => Math.floor(Math.random() * (100 - 1) + 1);
+const randNumStock = () => Math.floor(Math.random() * (100 - 1) + 1);
+const type = () => Math.random() < 0.5 ? 'buy' : 'sell';
+
+const insertTransaction = (num) => {
+  const tradePromises = [];
+  for (let i = 0; i < num; i++) {
+    const stockAmount = makeStockAmount();
+    const pps = price();
+    const total = pps * stockAmount;
+    tradePromises.push(
+      Mongo.insetTransactions({
+        id: i + 1,
+        date: date(),
+        stock_id: randNumStock(),
+        type: type(),
+        by_user: randNumUser(),
+        quantity: stockAmount,
+        price_per_share: pps,
+        total_price: total,
+      }),
+    );
+  }
+  Promise.all(tradePromises)
+    .then(() => console.log('Stock seed data created'))
+    .catch((err) => console.log('Error seeding data'));
+};
+
+insertTransaction(100);

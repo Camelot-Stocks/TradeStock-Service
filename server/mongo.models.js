@@ -7,6 +7,7 @@ const { Schema } = mongoose;
 const db = mongoose.connection;
 
 const userSchema = new Schema({
+  id: Number,
   name: String,
   budget: Number,
   birthdate: Date,
@@ -19,6 +20,7 @@ const userSchema = new Schema({
 });
 
 const stockSchema = new Schema({
+  id: Number,
   company: String,
   ticker: String,
   price: Number,
@@ -29,9 +31,9 @@ const stockSchema = new Schema({
 
 const transactionSchema = new Schema({
   date: Date,
-  stocks_id: Number,
+  stock_id: String,
   type: String,
-  by: Number,
+  by_user: String,
   quantity: Number,
   price_per_share: Number,
   total_price: Number,
@@ -96,23 +98,48 @@ module.exports = {
       }
     });
   },
-  insertUserStock: (userObj) => {
-    // User.create(data, (err, data) => {
-    //   if (err) {
-    //     console.log(err);
-    //   }
-    //   console.log(data, 'seeded');
-    // });
-    Stock.find({}).then((doc) => {
-      const id = doc[0]._id;
-      const stockObj = { stock: id, quantity: 10 };
-      User.create(userObj)
-        .then((user) => User.findByIdAndUpdate({ _id: user._id }, { $push: { stocks: stockObj } }))
-        .catch((err) => console.log(err));
-    })
-      .catch((err) => console.log(err));
+  insertUserStock: (userObj, stockAmount, qty) => {
+    User.create(userObj)
+      .then((user) => {
+        Stock.aggregate([{ $sample: { size: stockAmount } }])
+          .then((doc) => {
+            const stocksArr = [];
+            for (let i = 0; i < doc.length; i += 1) {
+              let id = doc[i]._id;
+              const stockObj = { stock: id, quantity: qty };
+              stocksArr.push(stockObj);
+            }
+            // User.findByIdAndUpdate({ _id: user._id }, { $set: { stocks: stocksArr } }, { upsert: true }, (err, data) => {
+            //   if (err) {
+            //     console.log(err);
+            //   } else {
+            //     console.log('success----', data);
+            //   }
+            User.findById(user._id, (err, theUser) => {
+              if (!err) {
+                theUser.stocks = stocksArr;
+                theUser.save((err, theUser) => {
+                  if (err) {
+                    console.log(err);
+                    return;
+                  } else {
+                    // console.log('User saved: ' + user);
+                    return;
+                  }
+                })
+              }
+            })
+            // });
+          })
+          .then((res) => res)
+          .catch((err) => console.log(err));
+      });
   },
-  getRandomStocks: (size) => {
-    // Stock.aggregate([{ $sample: { size } }]);
+  insetTransactions: (data) => {
+    Transaction.create(data, (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+    });
   },
 };
