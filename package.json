@@ -7,9 +7,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
-    "build": "webpack -w -d",
+    "build": "webpack --mode=production",
     "start": "nodemon ./server/index.js",
-    "db:setup": "node ./server/seed.js"
+    "seed:mongo": "node ./server/seedMongo.js"
   },
   "repository": {
     "type": "git",
@@ -26,6 +26,7 @@
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "faker": "^4.1.0",
     "mongoose": "^5.8.1",
     "mysql2": "^2.0.1",
     "react": "^16.12.0",

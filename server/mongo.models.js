@@ -10,16 +10,17 @@ const userSchema = new Schema({
   name: String,
   budget: Number,
   birthdate: Date,
-  phone_number: String,
+  phoneNumber: String,
   street: String,
   city: String,
   state: String,
-  zip: Number,
+  zip: String,
   stocks: [{ stock: { type: Schema.Types.ObjectId, ref: 'Stock' }, quantity: Number }],
 });
 
 const stockSchema = new Schema({
-  name: String,
+  company: String,
+  ticker: String,
   price: Number,
   ceo: String,
   employees: Number,
@@ -78,5 +79,40 @@ module.exports = {
         callback(null, success);
       }
     });
+  },
+  getStocks: (callback) => {
+    Stock.find({}, (err, data) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, data);
+      }
+    });
+  },
+  insertStock: (data) => {
+    Stock.create(data, (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  },
+  insertUserStock: (userObj) => {
+    // User.create(data, (err, data) => {
+    //   if (err) {
+    //     console.log(err);
+    //   }
+    //   console.log(data, 'seeded');
+    // });
+    Stock.find({}).then((doc) => {
+      const id = doc[0]._id;
+      const stockObj = { stock: id, quantity: 10 };
+      User.create(userObj)
+        .then((user) => User.findByIdAndUpdate({ _id: user._id }, { $push: { stocks: stockObj } }))
+        .catch((err) => console.log(err));
+    })
+      .catch((err) => console.log(err));
+  },
+  getRandomStocks: (size) => {
+    // Stock.aggregate([{ $sample: { size } }]);
   },
 };

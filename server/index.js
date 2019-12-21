@@ -12,6 +12,10 @@ app.get('/api/transactions', (req, res) => {
   //
 });
 
+app.get('/api/stocks', (req, res) => {
+  Controllers.getMongoStocks(req, res);
+});
+
 app.get('/api/transactions/:userid', (req, res) => {
   //
 });
