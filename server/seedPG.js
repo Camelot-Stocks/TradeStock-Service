@@ -1,5 +1,6 @@
+/* eslint-disable no-confusing-arrow */
 const faker = require('faker');
-const Mongo = require('./mongo.models.js');
+const Pg = require('./psql.models.js');
 
 const company = () => faker.company.companyName();
 const price = () => Number((Math.random() * 1000).toFixed(2));
@@ -15,6 +16,15 @@ const ticker = () => {
   }
   return tickerStr;
 };
+
+// stocks table
+// id SERIAL PRIMARY KEY,
+// company VARCHAR (10) NOT NULL,
+// ticker VARCHAR (50) UNIQUE NOT NULL,
+// price FLOAT(2) NOT NULL,
+// ceo VARCHAR (10) NOT NULL,
+// employees INTEGER NOT NULL,
+// founded TIMESTAMPTZ NOT NULL
 
 const insertStocks = (num) => {
   const stockPromises = [];
@@ -36,8 +46,6 @@ const insertStocks = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-// insertStocks(100);
-
 const name = () => faker.name.findName();
 const budget = () => Number((Math.random() * 500000).toFixed(2));
 const birthdate = () => faker.date.between('1945-01-01', '2002-01-01');
@@ -45,40 +53,57 @@ const phoneNumber = () => faker.phone.phoneNumberFormat();
 const street = () => faker.address.streetAddress();
 const city = () => faker.address.city();
 const state = () => faker.address.state();
-const zip = () => faker.address.zipCode();
+const zip = () => faker.address.zipCode().slice(0, 5);
 const quantity = () => Math.ceil(Math.random() * 100);
 const makeStockAmount = () => Math.ceil(Math.random() * 10);
 
-const insertUserStock = (num) => {
+// users table
+//  id SERIAL PRIMARY KEY,
+//  name VARCHAR (50) NOT NULL,
+//  budget FLOAT(2) NOT NULL,
+//  birthdate TIMESTAMPTZ NOT NULL,
+//  phone_number VARCHAR (14) NOT NULL,
+//  street VARCHAR(30) NOT NULL,
+//  city VARCHAR(30) NOT NULL,
+//  state VARCHAR(30) NOT NULL,
+//  zip INTEGER NOT NULL
+
+const insertUser = (num) => {
   const userPromises = [];
   for (let i = 0; i < num; i++) {
-    let qty = quantity();
-    let stockAmount = makeStockAmount();
     userPromises.push(
-      Mongo.insertUserStock({
-        id: i + 1,
+      Pg.seedUser({
         name: name(),
         budget: budget(),
         birthdate: birthdate(),
-        phoneNumber: phoneNumber(),
+        phone_number: phoneNumber(),
         street: street(),
         city: city(),
         state: state(),
         zip: zip(),
-        stocks: [],
-      }, stockAmount, qty),
+      }),
     );
   }
   Promise.all(userPromises)
-    .then(() => console.log('Stock seed data created'))
+    .then(() => console.log('User seed data created'))
     .catch((err) => console.log('Error seeding data'));
 };
 
-// insertUserStock(100);
+insertUser(5);
+
 const date = () => faker.date.between('2013-04-18', '2020-01-01');
 const randNumUser = () => Math.floor(Math.random() * (100 - 1) + 1);
 const randNumStock = () => Math.floor(Math.random() * (100 - 1) + 1);
 const type = () => Math.random() < 0.5 ? 'buy' : 'sell';
+
+// transations table
+// stock_id INTEGER NOT NULL,
+//  user_id INTEGER NOT NULL,
+//  type VARCHAR NOT NULL,
+//  date TIMESTAMPTZ NOT NULL,
+//  quantity INTEGER NOT NULL,
+//  total_price FLOAT (2) NOT NULL,
+//  price_per_share FLOAT (2) NOT NULL,
 
 const insertTransaction = (num) => {
   const tradePromises = [];
@@ -88,14 +113,13 @@ const insertTransaction = (num) => {
     const total = pps * stockAmount;
     tradePromises.push(
       Mongo.insetTransactions({
-        id: i + 1,
-        date: date(),
         stock_id: randNumStock(),
+        user_id: randNumUser(),
         type: type(),
-        by_user: randNumUser(),
+        date: date(),
         quantity: stockAmount,
-        price_per_share: pps,
         total_price: total,
+        price_per_share: pps,
       }),
     );
   }
@@ -104,4 +128,17 @@ const insertTransaction = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-insertTransaction(100);
+
+// users_stocks table
+// id SERIAL PRIMARY KEY,
+// stock_id INTEGER NOT NULL,
+// user_id INTEGER NOT NULL,
+// quantity INTEGER NOT NULL,
+// FOREIGN KEY (user_id) REFERENCES users (id),
+// FOREIGN KEY (stock_id) REFERENCES stocks (id)
+
+// {
+//   stock_id: randNumStock(),
+//   user_id: randNumUser(),
+//   quantity: makeStockAmount,
+// }

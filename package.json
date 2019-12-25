@@ -9,7 +9,8 @@
     "test:coverage": "jest --coverage --colors",
     "build": "webpack --mode=production",
     "start": "nodemon ./server/index.js",
-    "seed:mongo": "node ./server/seedMongo.js"
+    "seed:mongo": "node ./server/seedMongo.js",
+    "seed:pg": "node ./server/seedPG.js"
   },
   "repository": {
     "type": "git",

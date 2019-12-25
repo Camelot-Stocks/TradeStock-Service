@@ -71,9 +71,21 @@ addUsersStocks = (callback, data) => {
     .catch((err) => callback(err));
 };
 
+seedUser = (data) => {
+  const query = 'insert into users(name, budget, birthdate, phone_number, street, city, state, zip) values($1, $2, $3, $4, $5, $6, $7, $8)';
+  const queryVal = [data.name, data.budget, data.birthdate, data.phone_number, data.street, data.city, data.state, data.zip];
+  console.log(queryVal);
+  db.none(query, queryVal)
+    .then(() => {
+      console.log('User added to DB');
+    })
+    .catch((err) => console.log(err));
+};
+
 module.exports = {
   addUser,
   addStock,
   addTransaction,
   addUsersStocks,
+  seedUser,
 };
