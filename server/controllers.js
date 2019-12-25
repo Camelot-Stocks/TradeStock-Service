@@ -1,4 +1,5 @@
 const Mongo = require('./mongo.models.js');
+const PG = require('./psql.models.js');
 
 module.exports = {
   addMongoUser: (req, res) => {
@@ -45,5 +46,41 @@ module.exports = {
         res.status(200).send(data);
       }
     });
+  },
+  addPgUser: (req, res) => {
+    PG.addUser((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
+  },
+  addPgStock: (req, res) => {
+    PG.addStock((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
+  },
+  addPgTransaction: (req, res) => {
+    PG.addTransaction((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
+  },
+  addPgUsersStock: (req, res) => {
+    PG.addUsersStocks((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, req.body);
   },
 };
