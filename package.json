@@ -10,7 +10,7 @@
     "build": "webpack --mode=production",
     "start": "nodemon ./server/index.js",
     "seed:mongo": "node ./server/seedMongo.js",
-    "seed:pg": "node ./server/seedPG.js"
+    "seed:pg": "node --max-old-space-size=8192 ./server/seedPG.js"
   },
   "repository": {
     "type": "git",

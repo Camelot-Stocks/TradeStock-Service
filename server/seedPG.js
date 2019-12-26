@@ -80,8 +80,8 @@ const insertUser = (num) => {
 // insertUser(90);
 
 const date = () => faker.date.between('2013-04-18', '2020-01-01');
-const randNumUser = () => Math.floor(Math.random() * (100 - 1) + 1);
-const randNumStock = () => Math.floor(Math.random() * (100 - 1) + 1);
+const randNumUser = () => Math.floor(Math.random() * (10000000 - 1) + 1);
+const randNumStock = () => Math.floor(Math.random() * (500000 - 1) + 1);
 const type = () => Math.random() < 0.5 ? 'buy' : 'sell';
 
 const insertTransaction = (num) => {
@@ -163,5 +163,19 @@ const userGen = () => {
   console.log('Users done!');
 };
 
+const userStockGen = () => {
+  writer.pipe(fs.createWriteStream('pg.usersStocks.csv'));
+  for (let i = 0; i < 10000000; i++) {
+    writer.write({
+      id: i + 1,
+      stock_id: randNumStock(),
+      user_id: randNumUser(),
+      quantity: makeStockAmount(),
+    });
+  }
+  writer.end();
+  console.log('Users-Stocks done!');
+};
+
 // stockGen();
-userGen();
+// userGen();
