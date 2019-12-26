@@ -5,3 +5,7 @@ __tests__
 /pg.transactions.csv
 
 /pg.usersStocks.csv
+
+/pg.stocks.csv
+
+/pg.users.csv
