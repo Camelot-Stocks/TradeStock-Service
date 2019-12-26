@@ -88,7 +88,31 @@ seedStock = (data) => {
   const queryVal = [data.company, data.ticker, data.price, data.ceo, data.employees, data.founded];
   db.none(query, queryVal)
     .then(() => {
-      console.log('User added to DB');
+      console.log('Stock added to DB');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+seedTransaction = (data) => {
+  const query = 'insert into transactions(stock_id, user_id, type, date, quantity, total_price, price_per_share) values($1, $2, $3, $4, $5, $6, $7)';
+  const queryVal = [data.stock_id, data.user_id, data.type, data.date, data.quantity, data.total_price, data.price_per_share];
+  db.none(query, queryVal)
+    .then(() => {
+      console.log('Transaction added to DB');
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+seedUserStock = (data) => {
+  const query = 'insert into users_stocks(stock_id, user_id, quantity) values($1, $2, $3)';
+  const queryVal = [data.stock_id, data.user_id, data.quantity];
+  db.none(query, queryVal)
+    .then(() => {
+      console.log('UserStock added to DB');
     })
     .catch((err) => {
       console.log(err);
@@ -102,4 +126,6 @@ module.exports = {
   addUsersStocks,
   seedUser,
   seedStock,
+  seedTransaction,
+  seedUserStock,
 };

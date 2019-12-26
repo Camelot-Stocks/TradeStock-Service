@@ -1,5 +1,9 @@
 /* eslint-disable no-confusing-arrow */
 const faker = require('faker');
+const fs = require('fs');
+const csvWriter = require('csv-write-stream');
+
+const writer = csvWriter();
 const Pg = require('./psql.models.js');
 
 const company = () => faker.company.companyName();
@@ -16,15 +20,6 @@ const ticker = () => {
   }
   return tickerStr;
 };
-
-// stocks table
-// id SERIAL PRIMARY KEY,
-// company VARCHAR (10) NOT NULL,
-// ticker VARCHAR (50) UNIQUE NOT NULL,
-// price FLOAT(2) NOT NULL,
-// ceo VARCHAR (10) NOT NULL,
-// employees INTEGER NOT NULL,
-// founded TIMESTAMPTZ NOT NULL
 
 const insertStocks = (num) => {
   const stockPromises = [];
@@ -45,7 +40,7 @@ const insertStocks = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-// insertStocks(1);
+// insertStocks(90);
 
 const name = () => faker.name.findName();
 const budget = () => Number((Math.random() * 500000).toFixed(2));
@@ -58,23 +53,12 @@ const zip = () => faker.address.zipCode().slice(0, 5);
 const quantity = () => Math.ceil(Math.random() * 100);
 const makeStockAmount = () => Math.ceil(Math.random() * 10);
 
-// users table
-//  id SERIAL PRIMARY KEY,
-//  name VARCHAR (50) NOT NULL,
-//  budget FLOAT(2) NOT NULL,
-//  birthdate TIMESTAMPTZ NOT NULL,
-//  phone_number VARCHAR (14) NOT NULL,
-//  street VARCHAR(30) NOT NULL,
-//  city VARCHAR(30) NOT NULL,
-//  state VARCHAR(30) NOT NULL,
-//  zip INTEGER NOT NULL
-
 const insertUser = (num) => {
   const userPromises = [];
   for (let i = 0; i < num; i++) {
-    if (i % 10000 === 0) {
-      console.log(i);
-    }
+    // if (i % 10000 === 0) {
+    //   console.log(i);
+    // }
     userPromises.push(
       Pg.seedUser({
         name: name(),
@@ -93,21 +77,12 @@ const insertUser = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-insertUser(10);
+// insertUser(90);
 
 const date = () => faker.date.between('2013-04-18', '2020-01-01');
 const randNumUser = () => Math.floor(Math.random() * (100 - 1) + 1);
 const randNumStock = () => Math.floor(Math.random() * (100 - 1) + 1);
 const type = () => Math.random() < 0.5 ? 'buy' : 'sell';
-
-// transations table
-// stock_id INTEGER NOT NULL,
-//  user_id INTEGER NOT NULL,
-//  type VARCHAR NOT NULL,
-//  date TIMESTAMPTZ NOT NULL,
-//  quantity INTEGER NOT NULL,
-//  total_price FLOAT (2) NOT NULL,
-//  price_per_share FLOAT (2) NOT NULL,
 
 const insertTransaction = (num) => {
   const tradePromises = [];
@@ -116,7 +91,7 @@ const insertTransaction = (num) => {
     const pps = price();
     const total = pps * stockAmount;
     tradePromises.push(
-      Mongo.insetTransactions({
+      Pg.seedTransaction({
         stock_id: randNumStock(),
         user_id: randNumUser(),
         type: type(),
@@ -128,21 +103,65 @@ const insertTransaction = (num) => {
     );
   }
   Promise.all(tradePromises)
-    .then(() => console.log('Stock seed data created'))
+    .then(() => console.log('Transaction seed data created'))
     .catch((err) => console.log('Error seeding data'));
 };
 
+// insertTransaction(10);
 
-// users_stocks table
-// id SERIAL PRIMARY KEY,
-// stock_id INTEGER NOT NULL,
-// user_id INTEGER NOT NULL,
-// quantity INTEGER NOT NULL,
-// FOREIGN KEY (user_id) REFERENCES users (id),
-// FOREIGN KEY (stock_id) REFERENCES stocks (id)
+const insertUserStock = (num) => {
+  const userStockPromises = [];
+  for (let i = 0; i < num; i++) {
+    userStockPromises.push(
+      Pg.seedUserStock({
+        stock_id: randNumStock(),
+        user_id: randNumUser(),
+        quantity: makeStockAmount(),
+      }),
+    );
+  }
+  Promise.all(userStockPromises)
+    .then(() => console.log('Transaction seed data created'))
+    .catch((err) => console.log('Error seeding data'));
+};
 
-// {
-//   stock_id: randNumStock(),
-//   user_id: randNumUser(),
-//   quantity: makeStockAmount,
-// }
+// insertUserStock(10);
+
+const stockGen = () => {
+  writer.pipe(fs.createWriteStream('pg.stocks.csv'));
+  for (let i = 0; i < 500000; i++) {
+    writer.write({
+      id: i + 1,
+      company: company(),
+      ticker: ticker(),
+      price: price(),
+      ceo: ceo(),
+      employees: employees(),
+      founded: founded().toISOString(),
+    });
+  }
+  writer.end();
+  console.log('Stocks done!');
+};
+
+const userGen = () => {
+  writer.pipe(fs.createWriteStream('pg.users.csv'));
+  for (let i = 0; i < 10000000; i++) {
+    writer.write({
+      id: i + 1,
+      name: name(),
+      budget: budget(),
+      birthdate: birthdate().toISOString(),
+      phone_number: phoneNumber(),
+      street: street(),
+      city: city(),
+      state: state(),
+      zip: zip(),
+    });
+  }
+  writer.end();
+  console.log('Users done!');
+};
+
+// stockGen();
+userGen();
