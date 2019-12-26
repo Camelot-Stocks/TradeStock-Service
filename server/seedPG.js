@@ -165,17 +165,45 @@ const userGen = () => {
 
 const userStockGen = () => {
   writer.pipe(fs.createWriteStream('pg.usersStocks.csv'));
+  let counter = 1;
   for (let i = 0; i < 10000000; i++) {
-    writer.write({
-      id: i + 1,
-      stock_id: randNumStock(),
-      user_id: randNumUser(),
-      quantity: makeStockAmount(),
-    });
+    const qty = Math.ceil(Math.random() * 10);
+    for (let j = 0; j < qty; j++) {
+      writer.write({
+        id: counter++,
+        stock_id: randNumStock(),
+        user_id: i + 1,
+        quantity: makeStockAmount(),
+      });
+    }
   }
   writer.end();
   console.log('Users-Stocks done!');
 };
 
+const transactionGen = () => {
+  writer.pipe(fs.createWriteStream('pg.transactions.csv', { flags: 'a' }));
+  let counter = 40000000;
+  for (let i = 0; i < 10000000; i++) {
+    const stockAmount = makeStockAmount();
+    const pps = price();
+    const total = (pps * stockAmount).toFixed(2);
+    writer.write({
+      id: counter++,
+      stock_id: randNumStock(),
+      user_id: randNumUser(),
+      type: type(),
+      date: date().toISOString(),
+      quantity: stockAmount,
+      total_price: total,
+      price_per_share: pps,
+    });
+  }
+  writer.end();
+  console.log('Transactions done!');
+};
+
 // stockGen();
 // userGen();
+// userStockGen();
+transactionGen();
