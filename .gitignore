@@ -1,1 +1,7 @@
 node_modules
+
+__tests__
+
+./pg.transactions.csv
+
+./pg.usersStocks.csv

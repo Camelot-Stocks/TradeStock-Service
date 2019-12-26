@@ -183,7 +183,7 @@ const userStockGen = () => {
 
 const transactionGen = () => {
   writer.pipe(fs.createWriteStream('pg.transactions.csv', { flags: 'a' }));
-  let counter = 40000000;
+  let counter = 10000000;
   for (let i = 0; i < 10000000; i++) {
     const stockAmount = makeStockAmount();
     const pps = price();

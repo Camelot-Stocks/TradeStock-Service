@@ -3,15 +3,15 @@
 exports[`<StopLimitOrder /> Component matches the snapshot 1`] = `
 Array [
   <div
-    className="sc-bxivhb cyWHkv"
+    className="sc-bdVaJa esOmFL"
   >
     <label
-      className="sc-bwzfXH dbwzZe"
+      className="sc-htpNat jremZg"
     >
       Stop Price
     </label>
     <input
-      className="sc-bdVaJa sc-htpNat dFFWgj"
+      className="sc-bwzfXH sc-bxivhb idZoeo"
       name="stopPrice"
       onChange={[Function]}
       placeholder="$0.00"
@@ -20,15 +20,15 @@ Array [
     />
   </div>,
   <div
-    className="sc-bxivhb cyWHkv"
+    className="sc-bdVaJa esOmFL"
   >
     <label
-      className="sc-bwzfXH dbwzZe"
+      className="sc-htpNat jremZg"
     >
       Limit Price
     </label>
     <input
-      className="sc-bdVaJa sc-htpNat dFFWgj"
+      className="sc-bwzfXH sc-bxivhb idZoeo"
       name="limitPrice"
       onChange={[Function]}
       placeholder="$0.00"
@@ -37,15 +37,15 @@ Array [
     />
   </div>,
   <div
-    className="sc-bxivhb cyWHkv"
+    className="sc-bdVaJa esOmFL"
   >
     <label
-      className="sc-bwzfXH dbwzZe"
+      className="sc-htpNat jremZg"
     >
       Shares
     </label>
     <input
-      className="sc-bdVaJa sc-htpNat dFFWgj"
+      className="sc-bwzfXH sc-bxivhb idZoeo"
       name="shares"
       onChange={[Function]}
       placeholder="0"
@@ -53,18 +53,26 @@ Array [
     />
   </div>,
   <div
-    className="sc-bxivhb cyWHkv"
+    className="sc-bdVaJa esOmFL"
   >
     <label
-      className="sc-bwzfXH dbwzZe"
+      className="sc-htpNat jremZg"
     >
       Expires
     </label>
     <div
-      className="sc-iwsKbI bbqNLX"
+      className="sc-bZQynM lkStuE"
       onClick={[Function]}
     >
-      Good for Day
+      <div
+        className="sc-gzVnrw hKpdPs"
+      >
+        Good for Day
+      </div>
+      <img
+        className="sc-kgoBCf hLGQSG"
+        src="./arrows.png"
+      />
     </div>
   </div>,
 ]
