@@ -30,8 +30,7 @@ const insertStocks = (num) => {
   const stockPromises = [];
   for (let i = 0; i < num; i++) {
     stockPromises.push(
-      Mongo.insertStock({
-        id: i + 1,
+      Pg.seedStock({
         company: company(),
         ticker: ticker(),
         price: price(),
@@ -45,6 +44,8 @@ const insertStocks = (num) => {
     .then(() => console.log('Stock seed data created'))
     .catch((err) => console.log('Error seeding data'));
 };
+
+// insertStocks(1);
 
 const name = () => faker.name.findName();
 const budget = () => Number((Math.random() * 500000).toFixed(2));
@@ -71,6 +72,9 @@ const makeStockAmount = () => Math.ceil(Math.random() * 10);
 const insertUser = (num) => {
   const userPromises = [];
   for (let i = 0; i < num; i++) {
+    if (i % 10000 === 0) {
+      console.log(i);
+    }
     userPromises.push(
       Pg.seedUser({
         name: name(),
@@ -89,7 +93,7 @@ const insertUser = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-insertUser(5);
+insertUser(10);
 
 const date = () => faker.date.between('2013-04-18', '2020-01-01');
 const randNumUser = () => Math.floor(Math.random() * (100 - 1) + 1);
