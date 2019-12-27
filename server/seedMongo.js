@@ -1,5 +1,9 @@
 const faker = require('faker');
+const csvWriter = require('csv-write-stream');
+const fs = require('fs');
 const Mongo = require('./mongo.models.js');
+
+const writer = csvWriter();
 
 const company = () => faker.company.companyName();
 const price = () => Number((Math.random() * 1000).toFixed(2));
@@ -104,4 +108,26 @@ const insertTransaction = (num) => {
     .catch((err) => console.log('Error seeding data'));
 };
 
-insertTransaction(100);
+// insertTransaction(100);
+
+const stockGen = () => {
+  writer.pipe(fs.createWriteStream('mdb.stocks.csv'));
+  for (let i = 0; i < 500000; i++) {
+    writer.write({
+      _id: i + 1,
+      company: company(),
+      ticker: ticker(),
+      price: price(),
+      ceo: ceo(),
+      employees: employees(),
+      founded: founded().toISOString().slice(0, 4),
+    });
+  }
+  writer.end();
+  console.log('Stocks done!');
+};
+
+stockGen();
+
+// import stocks command:
+// mongoimport --db=robinhood --collection=stocks --type=csv --columnsHaveTypes --fields="_id.auto(),company.string(),ticker.string(),price.auto(),ceo.string(),employees.auto(),founded.auto()" --file=/Users/arashabbasi/hackreactor/SDC/Robinhood-TradeStock/mdb.stocks.csv

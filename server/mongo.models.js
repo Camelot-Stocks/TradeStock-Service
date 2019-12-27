@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const db = mongoose.connection;
 
 const userSchema = new Schema({
-  id: Number,
+  _id: Number,
   name: String,
   budget: Number,
   birthdate: Date,
@@ -16,11 +16,11 @@ const userSchema = new Schema({
   city: String,
   state: String,
   zip: String,
-  stocks: [{ stock: { type: Schema.Types.ObjectId, ref: 'Stock' }, quantity: Number }],
+  stocks: [{ stock: { type: Number, ref: 'Stock' }, quantity: Number }],
 });
 
 const stockSchema = new Schema({
-  id: Number,
+  _id: Number,
   company: String,
   ticker: String,
   price: Number,
@@ -31,9 +31,9 @@ const stockSchema = new Schema({
 
 const transactionSchema = new Schema({
   date: Date,
-  stock_id: String,
+  stock_id: { type: Number, ref: 'Stock' },
   type: String,
-  by_user: String,
+  by_user: { type: Number, ref: 'User' },
   quantity: Number,
   price_per_share: Number,
   total_price: Number,

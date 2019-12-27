@@ -9,7 +9,7 @@
     "test:coverage": "jest --coverage --colors",
     "build": "webpack --mode=production",
     "start": "nodemon ./server/index.js",
-    "seed:mongo": "node ./server/seedMongo.js",
+    "seed:mongo": "node --max-old-space-size=8192 ./server/seedMongo.js",
     "seed:pg": "node --max-old-space-size=8192 ./server/seedPG.js"
   },
   "repository": {

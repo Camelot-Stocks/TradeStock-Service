@@ -9,3 +9,9 @@ __tests__
 /pg.stocks.csv
 
 /pg.users.csv
+
+/mdb.stocks.csv
+
+/mdb.users.csv
+
+/mdb.transactions.csv
