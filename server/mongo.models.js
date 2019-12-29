@@ -30,6 +30,7 @@ const stockSchema = new Schema({
 });
 
 const transactionSchema = new Schema({
+  _id: Number,
   date: Date,
   stock_id: { type: Number, ref: 'Stock' },
   type: String,
@@ -137,6 +138,13 @@ module.exports = {
   },
   insetTransactions: (data) => {
     Transaction.create(data, (err, data) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  },
+  insertManyUsers: (data) => {
+    User.insertMany(data, (err) => {
       if (err) {
         console.log(err);
       }

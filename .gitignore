@@ -15,3 +15,5 @@ __tests__
 /mdb.users.csv
 
 /mdb.transactions.csv
+
+/mdb.users.json
