@@ -4,7 +4,6 @@ const faker = require('faker');
 const csvWriter = require('csv-write-stream');
 const fs = require('fs');
 const Mongo = require('./mongo.models.js');
-require('events').EventEmitter.prototype._maxListeners = 1000;
 
 const writer = csvWriter();
 
@@ -168,94 +167,6 @@ const userGen = () => {
 // userGen();
 
 // mongoimport --db=robinhood --collection=users --type=csv --columnsHaveTypes --fields="_id.auto(), name.string(), budget.auto(),birthdate.auto(), phoneNumber.string(),street.string(),city.string(), state.string(), zip.auto(), stocks.auto()" --file=/Users/arashabbasi/hackreactor/SDC/Robinhood-TradeStock/mdb.users.csv
-
-// const data = {};
-// data.stocks = [];
-
-// for (let i = 0; i < 100000; i++) {
-//   const stocksArr = [];
-//   const qty = Math.ceil(Math.random() * 10);
-//   for (let j = 0; j < qty; j++) {
-//     const stockObj = { stock: randNumStock(), quantity: quantity() };
-//     stocksArr.push(stockObj);
-//   }
-//   user = {
-//     _id: i + 1,
-//     name: name(),
-//     budget: budget(),
-//     birthdate: birthdate().toISOString(),
-//     phoneNumber: phoneNumber(),
-//     street: street(),
-//     city: city(),
-//     state: state(),
-//     zip: zip(),
-//     stocks: stocksArr,
-//   };
-//   data.stocks.push(user);
-// }
-
-// fs.writeFile('mdb.users.json', JSON.stringify(data), (err) => {
-//   if (err) throw err;
-//   console.log('complete');
-// });
-
-// async function users(outer, inner) {
-//   let counter = 0;
-//   try {
-//     for (let j = 0; j < outer; j++) {
-//       const inputArr = [];
-//       for (let i = 0; i < inner; i++) {
-//         const stocksArr = [];
-//         const qty = Math.ceil(Math.random() * 10);
-//         for (let k = 0; k < qty; k++) {
-//           const stockObj = { stock: randNumStock(), quantity: quantity() };
-//           stocksArr.push(stockObj);
-//         }
-//         user = {
-//           _id: counter + 1,
-//           name: name(),
-//           budget: budget(),
-//           birthdate: birthdate().toISOString(),
-//           phoneNumber: phoneNumber(),
-//           street: street(),
-//           city: city(),
-//           state: state(),
-//           zip: zip(),
-//           stocks: stocksArr,
-//           // stocks: [
-//           //   { stock: randNumStock(), quantity: quantity() },
-//           //   { stock: randNumStock(), quantity: quantity() },
-//           //   { stock: randNumStock(), quantity: quantity() },
-//           //   { stock: randNumStock(), quantity: quantity() },
-//           //   { stock: randNumStock(), quantity: quantity() },
-//           // ],
-//         };
-//         inputArr.push(user);
-//         counter++;
-//       }
-//       if (counter % 100000 === 0) {
-//         console.log('At: ', counter);
-//       }
-//       // await Mongo.insertManyUsers(inputArr);
-//       await fs.writeFile('mdb.users.json', JSON.stringify(inputArr), (err) => {
-//         if (err) throw err;
-//         let writeAt = 0;
-//         writeAt++;
-//         if (writeAt % 100000 === 0) {
-//           console.log('json at: ', writeAt);
-//         }
-//       });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   } finally {
-//     console.log('We are done here');
-//   }
-// }
-
-// users(10, 100000);
-
-// mongoimport --db=robinhood --collection=users --file=/Users/arashabbasi/hackreactor/SDC/Robinhood-TradeStock/mdb.users.json --jsonArray
 
 const transactionGen = () => {
   writer.pipe(fs.createWriteStream('mdb.transactions.csv', { flags: 'a' }));
