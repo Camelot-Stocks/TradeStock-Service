@@ -4,7 +4,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require('path');
 const cors = require('cors');
-const { Users, Stocks } = require('./database.js');
+const { Users, Stocks } = require('./backup/database.js/index.js');
 
 app.use(cors());
 app.use(bodyParser.json());
