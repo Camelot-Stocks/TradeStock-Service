@@ -110,12 +110,6 @@ module.exports = {
               const stockObj = { stock: id, quantity: qty };
               stocksArr.push(stockObj);
             }
-            // User.findByIdAndUpdate({ _id: user._id }, { $set: { stocks: stocksArr } }, { upsert: true }, (err, data) => {
-            //   if (err) {
-            //     console.log(err);
-            //   } else {
-            //     console.log('success----', data);
-            //   }
             User.findById(user._id, (err, theUser) => {
               if (!err) {
                 theUser.stocks = stocksArr;
@@ -127,10 +121,9 @@ module.exports = {
                     // console.log('User saved: ' + user);
                     return;
                   }
-                })
+                });
               }
-            })
-            // });
+            });
           })
           .then((res) => res)
           .catch((err) => console.log(err));
