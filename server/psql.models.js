@@ -13,9 +13,6 @@ const pool = new Pool({
   host: 'localhost',
   database: 'robinhood',
   user: 'arashabbasi',
-  // max: 20,
-  // idleTimeoutMillis: 30000,
-  // connectionTimeoutMillis: 2000,
 });
 
 pool.connect((err, client, release) => {
@@ -119,6 +116,18 @@ seedUserStock = (data) => {
     });
 };
 
+getStock = (callback, data) => {
+  // console.log(data.stockId);
+  const query = `select * from users where id = ${data.stockId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
 module.exports = {
   addUser,
   addStock,
@@ -128,4 +137,5 @@ module.exports = {
   seedStock,
   seedTransaction,
   seedUserStock,
+  getStock,
 };

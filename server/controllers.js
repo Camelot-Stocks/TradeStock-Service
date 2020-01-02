@@ -83,4 +83,13 @@ module.exports = {
       }
     }, req.body);
   },
+  getPgStock: (stockId, res) => {
+    PG.getStock((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, stockId);
+  },
 };
