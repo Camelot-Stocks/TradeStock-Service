@@ -131,7 +131,6 @@ const stockGen = () => {
   writer.pipe(fs.createWriteStream('pg.stocks.csv'));
   for (let i = 0; i < 500000; i++) {
     writer.write({
-      id: i + 1,
       company: company(),
       ticker: ticker(),
       price: price(),
@@ -148,7 +147,6 @@ const userGen = () => {
   writer.pipe(fs.createWriteStream('pg.users.csv'));
   for (let i = 0; i < 10000000; i++) {
     writer.write({
-      id: i + 1,
       name: name(),
       budget: budget(),
       birthdate: birthdate().toISOString(),
@@ -170,7 +168,6 @@ const userStockGen = () => {
     const qty = Math.ceil(Math.random() * 10);
     for (let j = 0; j < qty; j++) {
       writer.write({
-        id: counter++,
         stock_id: randNumStock(),
         user_id: i + 1,
         quantity: makeStockAmount(),
@@ -183,7 +180,7 @@ const userStockGen = () => {
 
 const transactionGen = () => {
   writer.pipe(fs.createWriteStream('pg.transactions.csv', { flags: 'a' }));
-  let counter = 10000000;
+  // let counter = 10000000;
   for (let i = 0; i < 10000000; i++) {
     const stockAmount = makeStockAmount();
     const pps = price();

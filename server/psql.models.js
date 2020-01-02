@@ -117,8 +117,40 @@ seedUserStock = (data) => {
 };
 
 getStock = (callback, data) => {
-  // console.log(data.stockId);
-  const query = `select * from users where id = ${data.stockId}`;
+  const query = `select * from stocks where id = ${data.stockId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+getUser = (callback, data) => {
+  const query = `select * from users where id = ${data.userId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+getUsersStocks = (callback, data) => {
+  const query = `select * from users_stocks where user_id = ${data.userId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+getUsersTransactions = (callback, data) => {
+  const query = `select * from transactions where user_id = ${data.userId}`;
   db.query(query)
     .then((res) => {
       callback(null, res);
@@ -138,4 +170,7 @@ module.exports = {
   seedTransaction,
   seedUserStock,
   getStock,
+  getUser,
+  getUsersStocks,
+  getUsersTransactions,
 };

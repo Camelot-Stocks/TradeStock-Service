@@ -15,17 +15,22 @@ app.get('/api/stocks/:stockId', (req, res) => {
 
 // Get a user's details
 app.get('/api/users/:userId', (req, res) => {
-  // console.log(req.params);
-});
-
-// Get all transactions made by a user
-app.get('/api/transactions/:userId', (req, res) => {
-  // console.log(req.params);
+  Controllers.getPgUser(req.params, res);
 });
 
 // Get all stocks owned by a user
 app.get('/api/userstocks/:userId', (req, res) => {
-  // console.log(req.params);
+  Controllers.getPgAllStocks(req.params, res);
+});
+
+// Get all transactions made by a user
+app.get('/api/transactions/:userId', (req, res) => {
+  Controllers.getPgUserTransactions(req.params, res);
+});
+
+// Add a transaction made by a user
+app.post('/api/transaction', (req, res) => {
+  Controllers.addPgTransaction(req, res);
 });
 
 app.post('/api/user', (req, res) => {
@@ -36,9 +41,6 @@ app.post('/api/stock', (req, res) => {
   Controllers.addPgStock(req, res);
 });
 
-app.post('/api/transaction', (req, res) => {
-  Controllers.addPgTransaction(req, res);
-});
 
 app.post('/api/userstock', (req, res) => {
   Controllers.addPgUsersStock(req, res);

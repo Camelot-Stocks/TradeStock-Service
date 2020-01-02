@@ -92,4 +92,31 @@ module.exports = {
       }
     }, stockId);
   },
+  getPgUser: (userId, res) => {
+    PG.getUser((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, userId);
+  },
+  getPgAllStocks: (userId, res) => {
+    PG.getUsersStocks((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, userId);
+  },
+  getPgUserTransactions: (userId, res) => {
+    PG.getUsersTransactions((err, data) => {
+      if (err) {
+        res.status(400).send(err);
+      } else {
+        res.status(200).send(data);
+      }
+    }, userId);
+  },
 };
