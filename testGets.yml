@@ -1,0 +1,14 @@
+config:
+  target: "http://localhost:3000"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+      rampTo: 445
+    - duration: 10
+      arrivalRate: 445
+scenarios:
+  - name: "Get all transactions made by a specefic user"
+    flow:
+      - get:
+          url: "/api/transactions/{{ $randomNumber(1,10000000) }}"
+
