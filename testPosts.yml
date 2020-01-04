@@ -4,9 +4,9 @@ config:
   phases:
     - duration: 60
       arrivalRate: 20
-      # rampTo: 445
-    # - duration: 10
-    #   arrivalRate: 445
+      rampTo: 600
+    - duration: 10
+      arrivalRate: 600
 scenarios:
   - name: "Post a transaction made by a user"
     flow:
