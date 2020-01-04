@@ -13,9 +13,6 @@ const pool = new Pool({
   host: 'localhost',
   database: 'robinhood',
   user: 'arashabbasi',
-  // max: 20,
-  // idleTimeoutMillis: 30000,
-  // connectionTimeoutMillis: 2000,
 });
 
 pool.connect((err, client, release) => {
@@ -119,6 +116,50 @@ seedUserStock = (data) => {
     });
 };
 
+getStock = (callback, data) => {
+  const query = `select * from stocks where id = ${data.stockId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+getUser = (callback, data) => {
+  const query = `select * from users where id = ${data.userId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+getUsersStocks = (callback, data) => {
+  const query = `select * from users_stocks where user_id = ${data.userId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
+getUsersTransactions = (callback, data) => {
+  const query = `select * from transactions where user_id = ${data.userId}`;
+  db.query(query)
+    .then((res) => {
+      callback(null, res);
+    })
+    .catch((err) => {
+      callback(err);
+    });
+};
+
 module.exports = {
   addUser,
   addStock,
@@ -128,4 +169,8 @@ module.exports = {
   seedStock,
   seedTransaction,
   seedUserStock,
+  getStock,
+  getUser,
+  getUsersStocks,
+  getUsersTransactions,
 };
