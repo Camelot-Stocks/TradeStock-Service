@@ -17,3 +17,5 @@ __tests__
 /mdb.transactions.csv
 
 /mdb.users.json
+
+/newrelic.js
