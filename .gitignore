@@ -19,3 +19,5 @@ __tests__
 /mdb.users.json
 
 /newrelic.js
+
+/keys.js
