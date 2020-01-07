@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const Controllers = require('./controllers.js');
 
 const app = express();
-const port = 80;
+const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
